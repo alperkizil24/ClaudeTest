@@ -214,6 +214,175 @@ Handles file I/O operations for reading Pareto front data from text files.
 | Spacing | Diversity/Uniformity | Lower |
 | C-Metric | Relative Dominance | Higher (for first front) |
 
+---
+
+# Experimental Data: Cloud VM Task Scheduling
+
+This repository also contains experimental results from a cloud VM task scheduling optimization study. The experiments compare various multi-objective and single-objective evolutionary algorithms for optimizing task scheduling in a cloud computing environment.
+
+## Experiment Configuration
+
+| Parameter | Value |
+|-----------|-------|
+| Number of VMs | Static |
+| Number of Hosts | Static |
+| Number of Users | 1 |
+| Number of Datacenters | 1 |
+| Task Sizes | 700, 900, 1200 tasks |
+
+## Optimization Objectives
+
+Three minimization objectives are considered:
+
+| Objective | Unit | Description |
+|-----------|------|-------------|
+| **Makespan** | seconds (s) | Total time to complete all tasks |
+| **Energy Consumption** | Watt-hours (Wh) | Total energy used by the system |
+| **Avg. Wait Time** | seconds (s) | Average time tasks wait before execution |
+
+## Data Structure
+
+```
+Multi-Objective Algorithms/
+├── 700 Task/                    # Results for 700 tasks
+├── 900 Task/                    # Results for 900 tasks
+└── 1200 Task/                   # Results for 1200 tasks
+
+Single - Objective Algorithms/
+├── 700 Tasks/
+│   ├── GA_AvgWait/
+│   ├── GA_Energy/
+│   ├── GA_ISL_AvgWait/
+│   ├── GA_ISL_Energy/
+│   ├── GA_ISL_Makespan/
+│   ├── GA_MAKESPAN/
+│   ├── LJF_BEST/
+│   ├── LJF_WORST/
+│   ├── SA_AvgWait/
+│   ├── SA_Energy/
+│   ├── SA_Makespan/
+│   ├── SJF_BEST/
+│   └── SJF_WORST/
+├── 900 Tasks/
+│   └── [same structure]
+└── 1200 Tasks/
+    └── [same structure]
+```
+
+## Multi-Objective Algorithms
+
+Algorithms from the MOEA Java Library:
+
+| Algorithm | Full Name | Description |
+|-----------|-----------|-------------|
+| **MOEA_AMOSA** | Archived Multi-Objective Simulated Annealing | Simulated annealing-based MOEA |
+| **MOEA_eNSGAII** | Epsilon-NSGA-II | Enhanced NSGA-II with epsilon dominance |
+| **MOEA_NSGAII** | Non-dominated Sorting Genetic Algorithm II | Classic Pareto-based evolutionary algorithm |
+| **MOEA_SPEAII** | Strength Pareto Evolutionary Algorithm II | Fitness assignment based on dominance strength |
+
+### Multi-Objective File Naming Convention
+
+```
+ALG_NAME_(objective)_rnd_SEED_hh_mm_ss_sol_XX.xlsx
+```
+
+| Component | Description |
+|-----------|-------------|
+| `ALG_NAME` | Algorithm name (e.g., MOEA_AMOSA, MOEA_NSGAII) |
+| `objective` | Objective pair being optimized |
+| | `eVSs` = Energy vs Avg. Wait Time |
+| | `mVSs` = Makespan vs Avg. Wait Time |
+| | *(empty)* = Energy vs Makespan |
+| `SEED` | Random seed used for the run |
+| `hh_mm_ss` | Time of recording |
+| `XX` | Solution number in the Pareto front |
+
+**Example:** `MOEA_AMOSA_eVSs_rnd_1200_14_34_17_sol_1.xlsx`
+- Algorithm: AMOSA
+- Objectives: Energy vs Avg. Wait Time
+- Random seed: 1200
+- Time: 14:34:17
+- Solution: 1st point on Pareto front
+
+## Single-Objective Algorithms
+
+### Genetic Algorithm Variants
+
+| Algorithm | Description |
+|-----------|-------------|
+| **GA_AvgWait** | Standard GA optimizing Avg. Wait Time |
+| **GA_Energy** | Standard GA optimizing Energy Consumption |
+| **GA_MAKESPAN** | Standard GA optimizing Makespan |
+| **GA_ISL_AvgWait** | Island Model GA optimizing Avg. Wait Time |
+| **GA_ISL_Energy** | Island Model GA optimizing Energy Consumption |
+| **GA_ISL_Makespan** | Island Model GA optimizing Makespan |
+
+### Simulated Annealing Variants
+
+| Algorithm | Description |
+|-----------|-------------|
+| **SA_AvgWait** | SA optimizing Avg. Wait Time |
+| **SA_Energy** | SA optimizing Energy Consumption |
+| **SA_Makespan** | SA optimizing Makespan |
+
+### Heuristic Algorithms
+
+| Algorithm | Description |
+|-----------|-------------|
+| **LJF_BEST** | Longest Job First with Best Fit allocation |
+| **LJF_WORST** | Longest Job First with Worst Fit allocation |
+| **SJF_BEST** | Shortest Job First with Best Fit allocation |
+| **SJF_WORST** | Shortest Job First with Worst Fit allocation |
+
+### Single-Objective File Naming Convention
+
+```
+ALG_NAME_rnd_SEED_hh_mm_ss_sol_1.xlsx
+```
+
+Single-objective algorithms produce one solution per run (sol_1).
+
+## Excel File Format
+
+Each `.xlsx` file contains 2 rows:
+
+**Row 1 (Header):**
+```
+Makespan | Avg Waiting Time | Avg Execution Time | Avg Finish Time | Energy Use Wh | Avg VM Utilization % | Avg Host Utilization% | Avg Host IDLE Time (s)
+```
+
+**Row 2 (Values):**
+Corresponding metric values from the simulation run.
+
+### Key Metrics (Optimization Objectives)
+
+| Column | Objective? | Description |
+|--------|------------|-------------|
+| Makespan | Yes | Total completion time (minimize) |
+| Avg Waiting Time | Yes | Average task wait time (minimize) |
+| Energy Use Wh | Yes | Total energy consumption (minimize) |
+| Avg Execution Time | No | Average task execution time |
+| Avg Finish Time | No | Average task finish time |
+| Avg VM Utilization % | No | Average VM utilization percentage |
+| Avg Host Utilization% | No | Average host utilization percentage |
+| Avg Host IDLE Time (s) | No | Average host idle time |
+
+## Using Experimental Data with Performance Metrics
+
+The multi-objective algorithm results can be evaluated using the performance metrics library:
+
+1. Extract the 3 key objectives from Excel files
+2. Convert to the required input format (semicolon-delimited text)
+3. Compare Pareto fronts from different algorithms using HV, IGD, Spacing, and C-Metric
+
+**Example comparison:**
+- Compare NSGA-II vs SPEA-II Pareto fronts for 1200 tasks
+- Evaluate which algorithm produces better convergence (IGD)
+- Evaluate which algorithm produces better diversity (Spacing)
+- Calculate coverage metric to see dominance relationships
+
+---
+
 ## References
 
 - Zitzler, E., & Thiele, L. (1999). Multiobjective evolutionary algorithms: a comparative case study and the strength Pareto approach. IEEE Transactions on Evolutionary Computation.
