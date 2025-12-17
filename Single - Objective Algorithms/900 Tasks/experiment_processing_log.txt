@@ -1,0 +1,181 @@
+Subdirectory: GA_AvgWait
+Number of files: 10
+Files processed:
+  - GA_STT_rnd_1200_15_49_39_sol_1.xlsx (processed successfully)
+  - GA_STT_rnd_1201_15_49_45_sol_1.xlsx (processed successfully)
+  - GA_STT_rnd_1202_15_49_50_sol_1.xlsx (processed successfully)
+  - GA_STT_rnd_1203_15_49_56_sol_1.xlsx (processed successfully)
+  - GA_STT_rnd_1204_15_50_01_sol_1.xlsx (processed successfully)
+  - GA_STT_rnd_1205_15_50_06_sol_1.xlsx (processed successfully)
+  - GA_STT_rnd_1206_15_50_12_sol_1.xlsx (processed successfully)
+  - GA_STT_rnd_1207_15_50_17_sol_1.xlsx (processed successfully)
+  - GA_STT_rnd_1208_15_50_22_sol_1.xlsx (processed successfully)
+  - GA_STT_rnd_1209_15_50_28_sol_1.xlsx (processed successfully)
+
+Subdirectory: GA_Energy
+Number of files: 10
+Files processed:
+  - GA_POWER_rnd_1200_15_47_01_sol_1.xlsx (processed successfully)
+  - GA_POWER_rnd_1201_15_47_07_sol_1.xlsx (processed successfully)
+  - GA_POWER_rnd_1202_15_47_12_sol_1.xlsx (processed successfully)
+  - GA_POWER_rnd_1203_15_47_18_sol_1.xlsx (processed successfully)
+  - GA_POWER_rnd_1204_15_47_23_sol_1.xlsx (processed successfully)
+  - GA_POWER_rnd_1205_15_47_29_sol_1.xlsx (processed successfully)
+  - GA_POWER_rnd_1206_15_47_34_sol_1.xlsx (processed successfully)
+  - GA_POWER_rnd_1207_15_47_39_sol_1.xlsx (processed successfully)
+  - GA_POWER_rnd_1208_15_47_45_sol_1.xlsx (processed successfully)
+  - GA_POWER_rnd_1209_15_47_50_sol_1.xlsx (processed successfully)
+
+Subdirectory: GA_ISL_AvgWait
+Number of files: 10
+Files processed:
+  - GA_STT_ISL_rnd_1200_16_15_50_sol_1.xlsx (processed successfully)
+  - GA_STT_ISL_rnd_1201_16_16_15_sol_1.xlsx (processed successfully)
+  - GA_STT_ISL_rnd_1202_16_16_39_sol_1.xlsx (processed successfully)
+  - GA_STT_ISL_rnd_1203_16_17_04_sol_1.xlsx (processed successfully)
+  - GA_STT_ISL_rnd_1204_16_17_30_sol_1.xlsx (processed successfully)
+  - GA_STT_ISL_rnd_1205_16_17_55_sol_1.xlsx (processed successfully)
+  - GA_STT_ISL_rnd_1206_16_18_19_sol_1.xlsx (processed successfully)
+  - GA_STT_ISL_rnd_1207_16_18_44_sol_1.xlsx (processed successfully)
+  - GA_STT_ISL_rnd_1208_16_19_08_sol_1.xlsx (processed successfully)
+  - GA_STT_ISL_rnd_1209_16_19_34_sol_1.xlsx (processed successfully)
+
+Subdirectory: GA_ISL_Energy
+Number of files: 10
+Files processed:
+  - GA_POW_ISL_rnd_1200_16_07_13_sol_1.xlsx (processed successfully)
+  - GA_POW_ISL_rnd_1201_16_07_38_sol_1.xlsx (processed successfully)
+  - GA_POW_ISL_rnd_1202_16_08_03_sol_1.xlsx (processed successfully)
+  - GA_POW_ISL_rnd_1203_16_08_29_sol_1.xlsx (processed successfully)
+  - GA_POW_ISL_rnd_1204_16_08_54_sol_1.xlsx (processed successfully)
+  - GA_POW_ISL_rnd_1205_16_09_19_sol_1.xlsx (processed successfully)
+  - GA_POW_ISL_rnd_1206_16_09_44_sol_1.xlsx (processed successfully)
+  - GA_POW_ISL_rnd_1207_16_10_10_sol_1.xlsx (processed successfully)
+  - GA_POW_ISL_rnd_1208_16_10_36_sol_1.xlsx (processed successfully)
+  - GA_POW_ISL_rnd_1209_16_11_01_sol_1.xlsx (processed successfully)
+
+Subdirectory: GA_ISL_Makespan
+Number of files: 10
+Files processed:
+  - GA_MKS_ISL_rnd_1200_15_51_11_sol_1.xlsx (processed successfully)
+  - GA_MKS_ISL_rnd_1201_15_51_28_sol_1.xlsx (processed successfully)
+  - GA_MKS_ISL_rnd_1202_15_51_45_sol_1.xlsx (processed successfully)
+  - GA_MKS_ISL_rnd_1203_15_52_02_sol_1.xlsx (processed successfully)
+  - GA_MKS_ISL_rnd_1204_15_52_19_sol_1.xlsx (processed successfully)
+  - GA_MKS_ISL_rnd_1205_15_52_37_sol_1.xlsx (processed successfully)
+  - GA_MKS_ISL_rnd_1206_15_52_54_sol_1.xlsx (processed successfully)
+  - GA_MKS_ISL_rnd_1207_15_53_12_sol_1.xlsx (processed successfully)
+  - GA_MKS_ISL_rnd_1208_15_53_29_sol_1.xlsx (processed successfully)
+  - GA_MKS_ISL_rnd_1209_15_53_46_sol_1.xlsx (processed successfully)
+
+Subdirectory: GA_MAKESPAN
+Number of files: 10
+Files processed:
+  - GA_MAKESPAN_rnd_1200_15_46_06_sol_1.xlsx (processed successfully)
+  - GA_MAKESPAN_rnd_1201_15_46_10_sol_1.xlsx (processed successfully)
+  - GA_MAKESPAN_rnd_1202_15_46_15_sol_1.xlsx (processed successfully)
+  - GA_MAKESPAN_rnd_1203_15_46_19_sol_1.xlsx (processed successfully)
+  - GA_MAKESPAN_rnd_1204_15_46_24_sol_1.xlsx (processed successfully)
+  - GA_MAKESPAN_rnd_1205_15_46_28_sol_1.xlsx (processed successfully)
+  - GA_MAKESPAN_rnd_1206_15_46_33_sol_1.xlsx (processed successfully)
+  - GA_MAKESPAN_rnd_1207_15_46_37_sol_1.xlsx (processed successfully)
+  - GA_MAKESPAN_rnd_1208_15_46_42_sol_1.xlsx (processed successfully)
+  - GA_MAKESPAN_rnd_1209_15_46_47_sol_1.xlsx (processed successfully)
+
+Subdirectory: LJF_BEST
+Number of files: 10
+Files processed:
+  - LJF_BEST_rnd_1200_15_43_56_sol_1.xlsx (processed successfully)
+  - LJF_BEST_rnd_1201_15_43_58_sol_1.xlsx (processed successfully)
+  - LJF_BEST_rnd_1202_15_43_59_sol_1.xlsx (processed successfully)
+  - LJF_BEST_rnd_1203_15_44_01_sol_1.xlsx (processed successfully)
+  - LJF_BEST_rnd_1204_15_44_02_sol_1.xlsx (processed successfully)
+  - LJF_BEST_rnd_1205_15_44_04_sol_1.xlsx (processed successfully)
+  - LJF_BEST_rnd_1206_15_44_05_sol_1.xlsx (processed successfully)
+  - LJF_BEST_rnd_1207_15_44_07_sol_1.xlsx (processed successfully)
+  - LJF_BEST_rnd_1208_15_44_09_sol_1.xlsx (processed successfully)
+  - LJF_BEST_rnd_1209_15_44_10_sol_1.xlsx (processed successfully)
+
+Subdirectory: LJF_WORST
+Number of files: 10
+Files processed:
+  - LJF_WORST_rnd_1200_15_43_24_sol_1.xlsx (processed successfully)
+  - LJF_WORST_rnd_1201_15_43_25_sol_1.xlsx (processed successfully)
+  - LJF_WORST_rnd_1202_15_43_27_sol_1.xlsx (processed successfully)
+  - LJF_WORST_rnd_1203_15_43_28_sol_1.xlsx (processed successfully)
+  - LJF_WORST_rnd_1204_15_43_30_sol_1.xlsx (processed successfully)
+  - LJF_WORST_rnd_1205_15_43_31_sol_1.xlsx (processed successfully)
+  - LJF_WORST_rnd_1206_15_43_33_sol_1.xlsx (processed successfully)
+  - LJF_WORST_rnd_1207_15_43_34_sol_1.xlsx (processed successfully)
+  - LJF_WORST_rnd_1208_15_43_36_sol_1.xlsx (processed successfully)
+  - LJF_WORST_rnd_1209_15_43_37_sol_1.xlsx (processed successfully)
+
+Subdirectory: SA_AvgWait
+Number of files: 10
+Files processed:
+  - SA_STT_rnd_1200_16_26_15_sol_1.xlsx (processed successfully)
+  - SA_STT_rnd_1201_16_26_26_sol_1.xlsx (processed successfully)
+  - SA_STT_rnd_1202_16_26_37_sol_1.xlsx (processed successfully)
+  - SA_STT_rnd_1203_16_26_49_sol_1.xlsx (processed successfully)
+  - SA_STT_rnd_1204_16_27_00_sol_1.xlsx (processed successfully)
+  - SA_STT_rnd_1205_16_27_11_sol_1.xlsx (processed successfully)
+  - SA_STT_rnd_1206_16_27_23_sol_1.xlsx (processed successfully)
+  - SA_STT_rnd_1207_16_27_34_sol_1.xlsx (processed successfully)
+  - SA_STT_rnd_1208_16_27_45_sol_1.xlsx (processed successfully)
+  - SA_STT_rnd_1209_16_27_56_sol_1.xlsx (processed successfully)
+
+Subdirectory: SA_Energy
+Number of files: 10
+Files processed:
+  - SA_POWER_V2_rnd_1200_16_24_04_sol_1.xlsx (processed successfully)
+  - SA_POWER_V2_rnd_1201_16_24_15_sol_1.xlsx (processed successfully)
+  - SA_POWER_V2_rnd_1202_16_24_26_sol_1.xlsx (processed successfully)
+  - SA_POWER_V2_rnd_1203_16_24_37_sol_1.xlsx (processed successfully)
+  - SA_POWER_V2_rnd_1204_16_24_49_sol_1.xlsx (processed successfully)
+  - SA_POWER_V2_rnd_1205_16_25_00_sol_1.xlsx (processed successfully)
+  - SA_POWER_V2_rnd_1206_16_25_11_sol_1.xlsx (processed successfully)
+  - SA_POWER_V2_rnd_1207_16_25_22_sol_1.xlsx (processed successfully)
+  - SA_POWER_V2_rnd_1208_16_25_33_sol_1.xlsx (processed successfully)
+  - SA_POWER_V2_rnd_1209_16_25_44_sol_1.xlsx (processed successfully)
+
+Subdirectory: SA_Makespan
+Number of files: 10
+Files processed:
+  - SA_MAKESPAN_V2_rnd_1200_16_19_56_sol_1.xlsx (processed successfully)
+  - SA_MAKESPAN_V2_rnd_1201_16_20_05_sol_1.xlsx (processed successfully)
+  - SA_MAKESPAN_V2_rnd_1202_16_20_13_sol_1.xlsx (processed successfully)
+  - SA_MAKESPAN_V2_rnd_1203_16_20_21_sol_1.xlsx (processed successfully)
+  - SA_MAKESPAN_V2_rnd_1204_16_20_29_sol_1.xlsx (processed successfully)
+  - SA_MAKESPAN_V2_rnd_1205_16_20_37_sol_1.xlsx (processed successfully)
+  - SA_MAKESPAN_V2_rnd_1206_16_20_46_sol_1.xlsx (processed successfully)
+  - SA_MAKESPAN_V2_rnd_1207_16_20_54_sol_1.xlsx (processed successfully)
+  - SA_MAKESPAN_V2_rnd_1208_16_21_02_sol_1.xlsx (processed successfully)
+  - SA_MAKESPAN_V2_rnd_1209_16_21_10_sol_1.xlsx (processed successfully)
+
+Subdirectory: SJF_BEST
+Number of files: 10
+Files processed:
+  - SJF_BEST_rnd_1200_15_44_50_sol_1.xlsx (processed successfully)
+  - SJF_BEST_rnd_1201_15_44_51_sol_1.xlsx (processed successfully)
+  - SJF_BEST_rnd_1202_15_44_53_sol_1.xlsx (processed successfully)
+  - SJF_BEST_rnd_1203_15_44_55_sol_1.xlsx (processed successfully)
+  - SJF_BEST_rnd_1204_15_44_56_sol_1.xlsx (processed successfully)
+  - SJF_BEST_rnd_1205_15_44_58_sol_1.xlsx (processed successfully)
+  - SJF_BEST_rnd_1206_15_44_59_sol_1.xlsx (processed successfully)
+  - SJF_BEST_rnd_1207_15_45_01_sol_1.xlsx (processed successfully)
+  - SJF_BEST_rnd_1208_15_45_02_sol_1.xlsx (processed successfully)
+  - SJF_BEST_rnd_1209_15_45_04_sol_1.xlsx (processed successfully)
+
+Subdirectory: SJF_WORST
+Number of files: 10
+Files processed:
+  - SJF_WORST_rnd_1200_15_45_32_sol_1.xlsx (processed successfully)
+  - SJF_WORST_rnd_1201_15_45_33_sol_1.xlsx (processed successfully)
+  - SJF_WORST_rnd_1202_15_45_35_sol_1.xlsx (processed successfully)
+  - SJF_WORST_rnd_1203_15_45_36_sol_1.xlsx (processed successfully)
+  - SJF_WORST_rnd_1204_15_45_38_sol_1.xlsx (processed successfully)
+  - SJF_WORST_rnd_1205_15_45_40_sol_1.xlsx (processed successfully)
+  - SJF_WORST_rnd_1206_15_45_41_sol_1.xlsx (processed successfully)
+  - SJF_WORST_rnd_1207_15_45_43_sol_1.xlsx (processed successfully)
+  - SJF_WORST_rnd_1208_15_45_44_sol_1.xlsx (processed successfully)
+  - SJF_WORST_rnd_1209_15_45_46_sol_1.xlsx (processed successfully)
