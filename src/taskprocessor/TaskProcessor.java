@@ -8,11 +8,23 @@ import java.util.regex.*;
  * Task Processor - Analyzes multi-objective and single-objective optimization results
  * for cloud VM task scheduling experiments.
  *
- * Usage: java taskprocessor.TaskProcessor <n> <includeSingleObjective> <objective1> <objective2>
+ * Usage: java taskprocessor.TaskProcessor <n> <includeSingleObjective> <objective1> <objective2> [options]
  *   n: number of tasks (200-2000, must be 700, 900, or 1200)
  *   includeSingleObjective: true/false - whether to include single-objective algorithms
  *   objective1: Makespan, Energy, or AvgWait
  *   objective2: Makespan, Energy, or AvgWait
+ *
+ * Options:
+ *   --plot              Generate Pareto front plot
+ *   --plot-title        Custom plot title
+ *   --plot-legend       Show legend (true/false, default: true)
+ *   --plot-labels       Show point labels (true/false, default: false)
+ *   --plot-marker-size  Marker size (default: 8)
+ *   --plot-marker-shape Marker shape (circle/square/triangle/diamond, default: circle)
+ *   --plot-output       Custom output filename for plot
+ *   --plot-dpi          Plot DPI (default: 150)
+ *   --plot-width        Plot width in inches (default: 12)
+ *   --plot-height       Plot height in inches (default: 8)
  */
 public class TaskProcessor {
 
@@ -22,12 +34,32 @@ public class TaskProcessor {
     private String objective2;
     private String basePath;
 
+    // Plot configuration
+    private boolean generatePlot = false;
+    private String plotTitle = null;
+    private boolean plotLegend = true;
+    private boolean plotLabels = false;
+    private int plotMarkerSize = 8;
+    private String plotMarkerShape = "circle";
+    private String plotOutput = null;
+    private int plotDpi = 150;
+    private double plotWidth = 12;
+    private double plotHeight = 8;
+
     // Objective column mappings
     private static final Map<String, String> OBJECTIVE_COLUMNS = new HashMap<>();
     static {
         OBJECTIVE_COLUMNS.put("Makespan", "Makespan");
         OBJECTIVE_COLUMNS.put("Energy", "Energy Use Wh");
         OBJECTIVE_COLUMNS.put("AvgWait", "Avg Waiting Time");
+    }
+
+    // Objective display names for plot
+    private static final Map<String, String> OBJECTIVE_DISPLAY_NAMES = new HashMap<>();
+    static {
+        OBJECTIVE_DISPLAY_NAMES.put("Makespan", "Makespan (s)");
+        OBJECTIVE_DISPLAY_NAMES.put("Energy", "Energy Consumption (Wh)");
+        OBJECTIVE_DISPLAY_NAMES.put("AvgWait", "Avg. Wait Time (s)");
     }
 
     // Objective pair to file pattern mapping
@@ -69,6 +101,18 @@ public class TaskProcessor {
         this.basePath = basePath;
     }
 
+    // Setters for plot configuration
+    public void setGeneratePlot(boolean generatePlot) { this.generatePlot = generatePlot; }
+    public void setPlotTitle(String plotTitle) { this.plotTitle = plotTitle; }
+    public void setPlotLegend(boolean plotLegend) { this.plotLegend = plotLegend; }
+    public void setPlotLabels(boolean plotLabels) { this.plotLabels = plotLabels; }
+    public void setPlotMarkerSize(int plotMarkerSize) { this.plotMarkerSize = plotMarkerSize; }
+    public void setPlotMarkerShape(String plotMarkerShape) { this.plotMarkerShape = plotMarkerShape; }
+    public void setPlotOutput(String plotOutput) { this.plotOutput = plotOutput; }
+    public void setPlotDpi(int plotDpi) { this.plotDpi = plotDpi; }
+    public void setPlotWidth(double plotWidth) { this.plotWidth = plotWidth; }
+    public void setPlotHeight(double plotHeight) { this.plotHeight = plotHeight; }
+
     public void process() throws Exception {
         System.out.println("=== Task Processor ===");
         System.out.println("Number of tasks: " + numTasks);
@@ -94,6 +138,11 @@ public class TaskProcessor {
 
         // Step 7: Generate CSV report
         generateCSVReport(metrics);
+
+        // Step 8: Generate plot if requested
+        if (generatePlot) {
+            generatePlot();
+        }
     }
 
     private void scanMultiObjectiveFiles() throws Exception {
@@ -440,15 +489,174 @@ public class TaskProcessor {
         System.out.println("CSV report generated successfully!");
     }
 
+    private void generatePlot() throws Exception {
+        System.out.println("\n=== Generating Pareto Front Plot ===");
+
+        // Generate JSON data file
+        String jsonFile = basePath + "/plot_data_" + numTasks + "_" + objective1 + "_vs_" + objective2 + ".json";
+        generatePlotDataJson(jsonFile);
+
+        // Determine output filename
+        String outputFile = plotOutput;
+        if (outputFile == null) {
+            outputFile = basePath + "/pareto_" + numTasks + "_" + objective1 + "_vs_" + objective2 + ".png";
+        }
+
+        // Build Python command
+        List<String> command = new ArrayList<>();
+        command.add("python3");
+        command.add(basePath + "/scripts/plot_pareto.py");
+        command.add("--data");
+        command.add(jsonFile);
+        command.add("--output");
+        command.add(outputFile);
+
+        if (plotTitle != null) {
+            command.add("--title");
+            command.add(plotTitle);
+        }
+
+        command.add("--legend");
+        command.add(String.valueOf(plotLegend));
+
+        command.add("--labels");
+        command.add(String.valueOf(plotLabels));
+
+        command.add("--marker-size");
+        command.add(String.valueOf(plotMarkerSize));
+
+        command.add("--marker-shape");
+        command.add(plotMarkerShape);
+
+        command.add("--dpi");
+        command.add(String.valueOf(plotDpi));
+
+        command.add("--width");
+        command.add(String.valueOf(plotWidth));
+
+        command.add("--height");
+        command.add(String.valueOf(plotHeight));
+
+        // Execute Python script
+        ProcessBuilder pb = new ProcessBuilder(command);
+        pb.redirectErrorStream(true);
+        pb.directory(new File(basePath));
+
+        System.out.println("Executing: " + String.join(" ", command));
+
+        Process process = pb.start();
+
+        // Read output
+        BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+
+        int exitCode = process.waitFor();
+        if (exitCode != 0) {
+            System.err.println("Plot generation failed with exit code: " + exitCode);
+        } else {
+            System.out.println("Plot generated: " + outputFile);
+        }
+    }
+
+    private void generatePlotDataJson(String jsonFile) throws IOException {
+        System.out.println("Generating plot data JSON: " + jsonFile);
+
+        try (PrintWriter writer = new PrintWriter(new FileWriter(jsonFile))) {
+            writer.println("{");
+
+            // Metadata
+            writer.println("  \"num_tasks\": " + numTasks + ",");
+            writer.println("  \"objective1\": \"" + OBJECTIVE_DISPLAY_NAMES.get(objective1) + "\",");
+            writer.println("  \"objective2\": \"" + OBJECTIVE_DISPLAY_NAMES.get(objective2) + "\",");
+
+            // Algorithms
+            writer.println("  \"algorithms\": {");
+
+            int algoCount = 0;
+            int totalAlgos = algorithmNonDominated.size();
+
+            for (String algo : algorithmNonDominated.keySet()) {
+                List<double[]> nonDom = algorithmNonDominated.get(algo);
+                List<double[]> allSols = algorithmSolutions.get(algo);
+
+                writer.println("    \"" + algo + "\": {");
+                writer.println("      \"total_solutions\": " + allSols.size() + ",");
+
+                // Non-dominated points
+                writer.println("      \"non_dominated\": [");
+                for (int i = 0; i < nonDom.size(); i++) {
+                    double[] sol = nonDom.get(i);
+                    writer.print("        [" + sol[0] + ", " + sol[1] + "]");
+                    if (i < nonDom.size() - 1) writer.print(",");
+                    writer.println();
+                }
+                writer.println("      ],");
+
+                // All points (for optional full plotting)
+                writer.println("      \"all_solutions\": [");
+                for (int i = 0; i < allSols.size(); i++) {
+                    double[] sol = allSols.get(i);
+                    writer.print("        [" + sol[0] + ", " + sol[1] + "]");
+                    if (i < allSols.size() - 1) writer.print(",");
+                    writer.println();
+                }
+                writer.println("      ]");
+
+                algoCount++;
+                writer.print("    }");
+                if (algoCount < totalAlgos) writer.print(",");
+                writer.println();
+            }
+
+            writer.println("  },");
+
+            // Universal Pareto set
+            writer.println("  \"universal_pareto\": [");
+            for (int i = 0; i < universalParetoSet.size(); i++) {
+                double[] sol = universalParetoSet.get(i);
+                writer.print("    [" + sol[0] + ", " + sol[1] + "]");
+                if (i < universalParetoSet.size() - 1) writer.print(",");
+                writer.println();
+            }
+            writer.println("  ]");
+
+            writer.println("}");
+        }
+    }
+
+    public static void printUsage() {
+        System.out.println("Usage: java taskprocessor.TaskProcessor <n> <includeSingleObjective> <objective1> <objective2> [options]");
+        System.out.println();
+        System.out.println("Required arguments:");
+        System.out.println("  n                      Number of tasks (700, 900, or 1200)");
+        System.out.println("  includeSingleObjective Include single-objective algorithms (true/false)");
+        System.out.println("  objective1             First objective (Makespan, Energy, or AvgWait)");
+        System.out.println("  objective2             Second objective (Makespan, Energy, or AvgWait)");
+        System.out.println();
+        System.out.println("Plot options:");
+        System.out.println("  --plot                 Generate Pareto front plot");
+        System.out.println("  --plot-title <title>   Custom plot title");
+        System.out.println("  --plot-legend <bool>   Show legend (true/false, default: true)");
+        System.out.println("  --plot-labels <bool>   Show point labels (true/false, default: false)");
+        System.out.println("  --plot-marker-size <n> Marker size (default: 8)");
+        System.out.println("  --plot-marker-shape <s> Marker shape (circle/square/triangle/diamond, default: circle)");
+        System.out.println("  --plot-output <file>   Custom output filename for plot");
+        System.out.println("  --plot-dpi <n>         Plot DPI (default: 150)");
+        System.out.println("  --plot-width <n>       Plot width in inches (default: 12)");
+        System.out.println("  --plot-height <n>      Plot height in inches (default: 8)");
+        System.out.println();
+        System.out.println("Examples:");
+        System.out.println("  java taskprocessor.TaskProcessor 700 true Energy Makespan");
+        System.out.println("  java taskprocessor.TaskProcessor 700 false Energy Makespan --plot");
+        System.out.println("  java taskprocessor.TaskProcessor 1200 true Makespan AvgWait --plot --plot-title \"Custom Title\" --plot-legend false");
+    }
+
     public static void main(String[] args) {
         if (args.length < 4) {
-            System.out.println("Usage: java taskprocessor.TaskProcessor <n> <includeSingleObjective> <objective1> <objective2>");
-            System.out.println("  n: number of tasks (700, 900, or 1200)");
-            System.out.println("  includeSingleObjective: true/false");
-            System.out.println("  objective1: Makespan, Energy, or AvgWait");
-            System.out.println("  objective2: Makespan, Energy, or AvgWait");
-            System.out.println();
-            System.out.println("Example: java taskprocessor.TaskProcessor 700 true Energy Makespan");
+            printUsage();
             return;
         }
 
@@ -477,17 +685,46 @@ public class TaskProcessor {
                 return;
             }
 
-            // Determine base path
+            // Determine base path (look for it in the last non-option argument or use current dir)
             String basePath = System.getProperty("user.dir");
-            if (args.length > 4) {
-                basePath = args[4];
+
+            // Parse optional arguments
+            TaskProcessor processor = new TaskProcessor(numTasks, includeSingleObjective, objective1, objective2, basePath);
+
+            for (int i = 4; i < args.length; i++) {
+                String arg = args[i];
+
+                if (arg.equals("--plot")) {
+                    processor.setGeneratePlot(true);
+                } else if (arg.equals("--plot-title") && i + 1 < args.length) {
+                    processor.setPlotTitle(args[++i]);
+                } else if (arg.equals("--plot-legend") && i + 1 < args.length) {
+                    processor.setPlotLegend(Boolean.parseBoolean(args[++i]));
+                } else if (arg.equals("--plot-labels") && i + 1 < args.length) {
+                    processor.setPlotLabels(Boolean.parseBoolean(args[++i]));
+                } else if (arg.equals("--plot-marker-size") && i + 1 < args.length) {
+                    processor.setPlotMarkerSize(Integer.parseInt(args[++i]));
+                } else if (arg.equals("--plot-marker-shape") && i + 1 < args.length) {
+                    processor.setPlotMarkerShape(args[++i]);
+                } else if (arg.equals("--plot-output") && i + 1 < args.length) {
+                    processor.setPlotOutput(args[++i]);
+                } else if (arg.equals("--plot-dpi") && i + 1 < args.length) {
+                    processor.setPlotDpi(Integer.parseInt(args[++i]));
+                } else if (arg.equals("--plot-width") && i + 1 < args.length) {
+                    processor.setPlotWidth(Double.parseDouble(args[++i]));
+                } else if (arg.equals("--plot-height") && i + 1 < args.length) {
+                    processor.setPlotHeight(Double.parseDouble(args[++i]));
+                } else if (!arg.startsWith("--")) {
+                    // Could be base path
+                    basePath = arg;
+                    processor = new TaskProcessor(numTasks, includeSingleObjective, objective1, objective2, basePath);
+                }
             }
 
-            TaskProcessor processor = new TaskProcessor(numTasks, includeSingleObjective, objective1, objective2, basePath);
             processor.process();
 
         } catch (NumberFormatException e) {
-            System.err.println("Error: n must be a valid integer");
+            System.err.println("Error: Invalid number format - " + e.getMessage());
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
             e.printStackTrace();

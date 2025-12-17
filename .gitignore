@@ -18,6 +18,10 @@ lib/
 # Test result files
 results_*.csv
 
+# Generated plot files
+pareto_*.png
+plot_data_*.json
+
 # IDE files
 .idea/
 *.iml
