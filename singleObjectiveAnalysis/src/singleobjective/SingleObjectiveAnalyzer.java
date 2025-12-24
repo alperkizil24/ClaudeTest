@@ -51,6 +51,7 @@ public class SingleObjectiveAnalyzer {
     private int dpi = 150;
     private double plotWidth = 12;
     private double plotHeight = 8;
+    private boolean xMode = false;  // Filter algorithms by selected objectives
 
     public SingleObjectiveAnalyzer(String basePath) {
         this.basePath = basePath;
@@ -82,6 +83,7 @@ public class SingleObjectiveAnalyzer {
     public void setPlotWidth(double width) { this.plotWidth = width; }
     public void setPlotHeight(double height) { this.plotHeight = height; }
     public void setOutputDir(String dir) { this.outputDir = dir; }
+    public void setXMode(boolean xMode) { this.xMode = xMode; }
 
     /**
      * Run the analysis.
@@ -119,7 +121,7 @@ public class SingleObjectiveAnalyzer {
             plotter.setHeight(plotHeight);
 
             if (generatePlot2D) {
-                String dataFile = reportGen.generatePlotDataJson(objective1, objective2, taskCountFilter);
+                String dataFile = reportGen.generatePlotDataJson(objective1, objective2, taskCountFilter, xMode);
                 String outputFile = plotter.generate2DPlot(dataFile, objective1, objective2, null);
                 System.out.println("2D Plot saved to: " + outputFile);
             }
@@ -162,6 +164,8 @@ public class SingleObjectiveAnalyzer {
         System.out.println("  --width <n>                Plot width in inches (default: 12)");
         System.out.println("  --height <n>               Plot height in inches (default: 8)");
         System.out.println("  --output-dir <dir>         Output directory");
+        System.out.println("  --Xmode                    Filter algorithms by selected objectives");
+        System.out.println("                             (only show algorithms optimizing the plotted objectives)");
         System.out.println("  --help                     Show this help message");
         System.out.println();
         System.out.println("Examples:");
@@ -176,6 +180,9 @@ public class SingleObjectiveAnalyzer {
         System.out.println();
         System.out.println("  # Filter specific task counts");
         System.out.println("  java singleobjective.SingleObjectiveAnalyzer --plot2d Makespan Energy --tasks 200,500,1000");
+        System.out.println();
+        System.out.println("  # Show only algorithms optimizing the plotted objectives");
+        System.out.println("  java singleobjective.SingleObjectiveAnalyzer --plot2d Makespan Energy --Xmode");
         System.out.println();
         System.out.println("Algorithms analyzed:");
         System.out.println("  GA variants (Green):     GA_AvgWait, GA_Energy, GA_MAKESPAN");
@@ -288,6 +295,10 @@ public class SingleObjectiveAnalyzer {
                     if (i + 1 < args.length) {
                         analyzer.setOutputDir(args[++i]);
                     }
+                    break;
+
+                case "--Xmode":
+                    analyzer.setXMode(true);
                     break;
 
                 default:

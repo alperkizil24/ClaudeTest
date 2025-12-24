@@ -151,10 +151,18 @@ public class ReportGenerator {
 
     /**
      * Generate JSON data file for Python plotting.
+     *
+     * @param objective1 First objective (X-axis)
+     * @param objective2 Second objective (Y-axis)
+     * @param taskCountFilter Optional filter for specific task counts
+     * @param xMode If true, only include algorithms that optimize one of the selected objectives
      */
-    public String generatePlotDataJson(String objective1, String objective2, int[] taskCountFilter) throws IOException {
+    public String generatePlotDataJson(String objective1, String objective2, int[] taskCountFilter, boolean xMode) throws IOException {
         String fileName = outputDir + "/plot_data_" + objective1 + "_vs_" + objective2 + ".json";
         System.out.println("Generating plot data: " + fileName);
+        if (xMode) {
+            System.out.println("  Xmode enabled: filtering algorithms by objectives " + objective1 + " and " + objective2);
+        }
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
             writer.println("{");
@@ -162,6 +170,7 @@ public class ReportGenerator {
             // Metadata
             writer.println("  \"objective1\": \"" + getObjectiveDisplayName(objective1) + "\",");
             writer.println("  \"objective2\": \"" + getObjectiveDisplayName(objective2) + "\",");
+            writer.println("  \"xmode\": " + xMode + ",");
 
             // Task count filter info
             writer.print("  \"task_counts\": [");
@@ -173,12 +182,27 @@ public class ReportGenerator {
             }
             writer.println("],");
 
+            // Get algorithms to include (filtered if xMode is enabled)
+            String[] allAlgorithms = dataParser.getTargetAlgorithms();
+            List<String> algorithmsToInclude = new ArrayList<>();
+
+            for (String algoName : allAlgorithms) {
+                if (xMode) {
+                    // Only include algorithms that optimize one of the selected objectives
+                    String optimizedObjective = getOptimizedObjective(algoName);
+                    if (optimizedObjective.equals(objective1) || optimizedObjective.equals(objective2)) {
+                        algorithmsToInclude.add(algoName);
+                    }
+                } else {
+                    algorithmsToInclude.add(algoName);
+                }
+            }
+
             // Algorithm data
             writer.println("  \"algorithms\": {");
 
-            String[] algorithms = dataParser.getTargetAlgorithms();
-            for (int a = 0; a < algorithms.length; a++) {
-                String algoName = algorithms[a];
+            for (int a = 0; a < algorithmsToInclude.size(); a++) {
+                String algoName = algorithmsToInclude.get(a);
                 AlgorithmData data = dataParser.getAlgorithmData(algoName);
 
                 writer.println("    \"" + algoName + "\": {");
@@ -208,7 +232,7 @@ public class ReportGenerator {
 
                 writer.println("      ]");
                 writer.print("    }");
-                if (a < algorithms.length - 1) writer.print(",");
+                if (a < algorithmsToInclude.size() - 1) writer.print(",");
                 writer.println();
             }
 
@@ -217,6 +241,24 @@ public class ReportGenerator {
         }
 
         return fileName;
+    }
+
+    /**
+     * Determine which objective an algorithm optimizes based on its name.
+     *
+     * @param algoName Algorithm name (e.g., "GA_Energy", "SA_Makespan", "GA_ISL_AvgWait")
+     * @return The objective it optimizes: "Makespan", "Energy", or "AvgWait"
+     */
+    private String getOptimizedObjective(String algoName) {
+        String lowerName = algoName.toLowerCase();
+        if (lowerName.contains("avgwait") || lowerName.contains("stt")) {
+            return "AvgWait";
+        } else if (lowerName.contains("energy") || lowerName.contains("power")) {
+            return "Energy";
+        } else if (lowerName.contains("makespan")) {
+            return "Makespan";
+        }
+        return "Unknown";
     }
 
     /**
