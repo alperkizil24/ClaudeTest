@@ -1,0 +1,13 @@
+Algorithm,Type,Total_Solutions,Non_Dominated_Solutions,Universal_Pareto_Contribution,Seed_1200,Seed_1201,Seed_1202,Seed_1203,Seed_1204,Seed_1205,Seed_1206,Seed_1207,Seed_1208,Seed_1209,HV,GD,IGD
+MOEA_AMOSA,Multi-Objective,42,4,0,2,3,8,2,4,9,1,6,5,2,0.170350,0.588147,0.549391
+MOEA_NSGAII,Multi-Objective,58,12,0,1,4,10,5,11,9,3,8,2,5,0.059609,0.781776,0.806255
+MOEA_SPEAII,Multi-Objective,70,14,0,3,8,8,8,8,4,16,5,4,6,0.049098,0.660469,0.673919
+MOEA_eNSGAII,Multi-Objective,45,8,0,2,9,1,3,6,4,6,5,6,3,0.041638,0.794137,0.847637
+SO_LJF_WORST,Single-Objective,10,1,0,1,1,1,1,1,1,1,1,1,1,0.000000,1.223654,1.271665
+SO_LJF_BEST,Single-Objective,10,1,0,1,1,1,1,1,1,1,1,1,1,0.000000,1.192306,1.250004
+SO_SJF_WORST,Single-Objective,10,2,0,1,1,1,1,1,1,1,1,1,1,0.000000,1.251253,1.261011
+SO_SJF_BEST,Single-Objective,10,2,0,1,1,1,1,1,1,1,1,1,1,0.000000,1.249942,1.283684
+Simulated Annealing,Grouped Single-Objective,20,2,1,2,2,2,2,2,2,2,2,2,2,0.000000,0.478018,0.379904
+Classic GA,Grouped Single-Objective,20,3,0,2,2,2,2,2,2,2,2,2,2,0.206284,0.636788,0.571234
+Island Model GA,Grouped Single-Objective,20,3,2,2,2,2,2,2,2,2,2,2,2,0.086666,0.097097,0.097097
+Universal_Pareto_Set,Reference,3,3,3,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,0.060716,0.000000,0.000000
